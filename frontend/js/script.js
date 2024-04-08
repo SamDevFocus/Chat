@@ -83,7 +83,7 @@ const handleLogin = (event) => {
     login.style.display = "none"
     chat.style.display = "flex"
 
-    websocket = new WebSocket("wss://chat-backend-ikvt.onrender.com")
+    websocket = new WebSocket("wss://chat-backend-ikvt.onrender.com") /* ws://localhost:8080 */ /* wss://chat-backend-ikvt.onrender.com */
     websocket.onmessage = processMessage
 }
 
@@ -99,8 +99,29 @@ const sendMessage = (event) => {
 
     websocket.send(JSON.stringify(message))
 
+    // Adiciona a mensagem enviada ao armazenamento local
+    const messages = JSON.parse(localStorage.getItem('chatMessages')) || [];
+    messages.push(message);
+    localStorage.setItem('chatMessages', JSON.stringify(messages));
+
     chatInput.value = ""
 }
+
+// Função para carregar as mensagens salvas do localStorage
+const loadSavedMessages = () => {
+    const messages = JSON.parse(localStorage.getItem('chatMessages')) || [];
+    messages.forEach(({ userId, userName, userColor, content }) => {
+        const message =
+            userId == user.id
+                ? createMessageSelfElement(content)
+                : createMessageOtherElement(content, userName, userColor)
+
+        chatMessages.appendChild(message);
+    });
+};
+
+// Chame essa função ao iniciar o aplicativo para carregar as mensagens salvas
+loadSavedMessages();
 
 loginForm.addEventListener("submit", handleLogin)
 chatForm.addEventListener("submit", sendMessage)
