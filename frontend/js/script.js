@@ -112,21 +112,5 @@ const sendMessage = (event) => {
     chatInput.value = "";
 };
 
-// Função para carregar as mensagens salvas do localStorage
-const loadSavedMessages = () => {
-    const messages = JSON.parse(localStorage.getItem('chatMessages')) || [];
-    messages.forEach(({ userId, userName, userColor, content }) => {
-        const message =
-            userId == user.id
-                ? createMessageSelfElement(content)
-                : createMessageOtherElement(content, userName, userColor);
-
-        chatMessages.appendChild(message);
-    });
-};
-
-// Chame essa função ao iniciar o aplicativo para carregar as mensagens salvas
-loadSavedMessages();
-
 loginForm.addEventListener("submit", handleLogin);
 chatForm.addEventListener("submit", sendMessage);
