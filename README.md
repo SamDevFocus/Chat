@@ -1,7 +1,4 @@
-# Chat
 SamDevFocus
-https://chat-frontend-50dp.onrender.com
-
 ---
 
 # Chat Simples com Node.js e WebSocket 💬
